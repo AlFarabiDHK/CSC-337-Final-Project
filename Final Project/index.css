@@ -1,0 +1,135 @@
+body{
+  background-image: linear-gradient(to right, #fde7d8 , #dbafa2);
+  padding: 0;
+  margin:0;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+
+}
+#navBar{
+  padding:1%;
+
+  text-align: center;
+}
+
+#shoppingCart{
+  position: fixed;
+  left: 1%;
+  width: 3%;
+
+}
+
+
+#freelanceSign{
+  position: relative;
+  left:2%;
+  top: 2%;
+  color: #060d1f;
+  text-decoration: none;
+}
+
+.Button{
+
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+
+  transition-duration: 0.4s;
+  cursor: pointer;
+  background-color: #dbafa2;
+  color: black;
+  border: 2px solid #9a6b5b;
+  border-radius: 25px;
+
+}
+
+#loginButton{
+  position: relative;
+  left:30%;
+
+}
+
+.Button:hover {
+  background-color: #9a6b5b;
+  color: white;
+}
+
+#topDiv{
+  padding: 5%;
+
+}
+
+h1{
+  font-family: 'Scope One', serif;
+  font-size: 7rem;
+}
+
+h2{
+  font-family: 'Scope One', serif;
+  font-size: 4rem;
+}
+
+#heading{
+  position: relative;
+  display: inline-block;
+  bottom: 20rem;
+  left: 2rem;
+
+}
+
+#serviceImg{
+  position: relative;
+  left:15%;
+  width:30%;
+  border-radius: 25px;
+
+  transform: rotate(-10deg);
+
+
+}
+
+#browseButton{
+  position: relative;
+  top:-4rem;
+  display: block;
+}
+
+#AboutUsDiv{
+  padding: 5%;
+  font-size: 1.5rem;
+}
+
+#SearchDiv{
+
+  text-align: center;
+
+}
+
+.searchBar{
+  border-radius: 20px;
+  font-size: 2rem;
+  padding:0.5% 2%;
+  border: none;
+  margin-right: 5%;
+  background-color: #dbafa2;
+}
+
+#loginDiv{
+  font-size: 1.5rem;
+}
+
+#SignUpDiv{
+  font-size: 1.5rem;
+  text-align: left;
+  padding-left: 15%;
+
+}
+
+.signUpBar{
+  position: absolute;
+  left: 50%;
+}
