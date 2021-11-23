@@ -50,6 +50,7 @@ body{
   color: white;
 }
 
+
 #loginButton{
   position: relative;
   left:30%;
@@ -142,8 +143,6 @@ h2{
 #logoutButton{
   position: fixed;
   right:5%;
-
-
 }
 
 #editInfo{
