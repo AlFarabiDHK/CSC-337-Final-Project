@@ -94,6 +94,7 @@ h2{
 }
 
 #browseButton{
+  text-decoration: none;
   position: relative;
   top:-4rem;
   display: block;
