@@ -8,3 +8,25 @@ gen_hash = data.digest('hex');
 
 console.log('to hash : ' + toHash)
 console.log('  hash  : ' + gen_hash);
+
+function login() {
+    let u = $('#usernameLogin').val();
+    let p = $('#passwordLogin').val();
+    $.get(
+      '/login/' + u + '/' + encodeURIComponent(p),
+      (data, status) => {
+          alert(data);
+          if (data == 'LOGIN') {
+            window.location.href = '/app/index.html';
+          }
+    });
+  }
+  function createAccount() {
+    let u = $('#usernameCreate').val();
+    let p = $('#passwordCreate').val();
+    $.get(
+      '/create/' + u + '/' + encodeURIComponent(p),
+      (data, status) => {
+          alert(data);
+    });
+  }

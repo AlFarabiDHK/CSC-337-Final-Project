@@ -62,6 +62,29 @@ app.use(cookieParser());
 app.use('/',express.static('public_html'));
 app.use('/login',authenticate);
 
+// Create the schema (in other words, the database object structure specification)
+var Schema = mongoose.Schema;
+var FreelancerSchema = new Schema({
+  username: String, 
+  password: String, 
+  name: String,
+  bio: String,
+  service: [{type: mongoose.Types.ObjectId, ref: 'Service'}],
+  contact: String,
+});
+
+var Freelancer = mongoose.model('Freelancer', FreelancerSchema)
+
+var ServiceSchema = new Schema({
+  name: String, 
+  description: String, 
+  price: Number,
+  class: String,
+  image: String
+ });
+var Service = mongoose.model('Service', ServiceSchema );
+
+
 // mongodb code
 
 const db  = mongoose.connection;
