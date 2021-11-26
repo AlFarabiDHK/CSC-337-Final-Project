@@ -17,7 +17,7 @@ function login() {
       (data, status) => {
           alert(data);
           if (data == 'LOGIN') {
-            window.location.href = '/app/index.html';
+            window.location.href = '/index.html';
           }
     });
   }
