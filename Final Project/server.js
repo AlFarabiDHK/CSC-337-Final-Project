@@ -96,6 +96,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.get('/', (req, res) => { res.redirect('/index.html'); });
 app.get('/testcookies', (req, res)=>{res.send(req.cookies);});
 
+
 // Start the server!
 
 app.listen(80, () => { console.log('server has started'); });
