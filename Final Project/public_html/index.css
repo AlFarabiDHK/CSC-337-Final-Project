@@ -136,6 +136,10 @@ h2{
   left: 50%;
 }
 
+.UploadPhoto{
+  position: absolute;
+  left: 80%;
+}
 .InfoDivs{
   background-color: white;
   border-radius: 25px;
