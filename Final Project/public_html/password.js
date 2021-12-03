@@ -9,9 +9,9 @@ function login() {
     if (httpRequest.readyState == XMLHttpRequest.DONE) {
       if (httpRequest.status == 200) {
         if (httpRequest.responseText == 'SUCCESS') {
-          window.location = './index.html';
+          window.location = './welcome.html';
         } else { 
-          alert('FAILED TO LOGIN');
+          alert('FAILED TO LOGIN 1');
         }
       } else { 
         alert('FAILED TO LOGIN 2');

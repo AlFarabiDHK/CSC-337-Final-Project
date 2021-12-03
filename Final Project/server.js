@@ -5,16 +5,17 @@ const parser = require('body-parser')
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const app = express();
-
+app.use(cookieParser());
 // authenticate and login functions
 
-TIMEOUT = 50000;
+TIMEOUT = 500000;
 var sessions = {};
 
 function filterSessions() {
   let now = Date.now();
   for (e in sessions) {
     if (sessions[e].time < (now - TIMEOUT)) {
+      console.log("logged out");
       delete sessions[e];
     }
   }
@@ -48,13 +49,13 @@ function authenticate(req, res, next) {
         res.cookie("login", {username: u, key:key}, {maxAge: TIMEOUT});
         next();
       } else {
-        res.redirect('./index.html');
+        res.redirect('index.html');
       }
     } else {
-      res.redirect('./index.html');
+      res.redirect('index.html');
     }
   }
-
+  app.use('/welcome.html',authenticate);
   /** HASHING CODE **/
 
 function getHash(password, salt) {
@@ -75,15 +76,16 @@ function isPasswordCorrect(account, password) {
 // all app.use calls go here
 
 app.use(parser.text({type: '*/*'}));
-app.use(cookieParser());
+
 app.use('/',express.static('public_html'));
-app.use('/login',authenticate);
+
 
 // Create the schema (in other words, the database object structure specification)
 var Schema = mongoose.Schema;
 var FreelancerSchema = new Schema({
   username: String, 
   password: String, 
+  hash: String,
   salt: Number,
   name: String,
   bio: String,
@@ -119,19 +121,17 @@ app.get('/login/:username/:password/', (req, res) => {
     if (results.length == 1) {
       console.log(results[0]);
       var password = req.params.password;
-      var correct = isPasswordCorrect(results[0].salt, password);
+      var correct = isPasswordCorrect(results[0], password);
       if (correct) {
           var sessionKey = putSession(req.params.username);
           res.cookie("login", {username: req.params.username, key:sessionKey}, 
           {maxAge: TIMEOUT});
           res.end('SUCCESS');
       } else {
-        console.log("1");
         res.end('There was an issue logging in please try again');
       }
     } else {
       res.end('There was an issue logging in please try again');
-      console.log("2");
     }
   });
 });
@@ -145,7 +145,7 @@ app.get('/create/:username/:password/:name/:bio/:contact/', (req, res) => {
       
       var free = new Freelancer({
         'username': req.params.username,
-        'password': hash,
+        'hash': hash,
         'salt': salt,
         'name': req.params.name,
         'bio': req.params.bio,
