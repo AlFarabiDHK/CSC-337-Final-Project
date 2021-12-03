@@ -70,7 +70,7 @@ function getHash(password, salt) {
   var toHash = password + salt;
   var hash = cryptoHash.update(toHash, 'utf-8').digest('hex');
   return hash;
- 
+
 }
 
 function isPasswordCorrect(account, password) {
@@ -90,7 +90,7 @@ app.use('/',express.static('public_html'));
 // Create the schema (in other words, the database object structure specification)
 var Schema = mongoose.Schema;
 var FreelancerSchema = new Schema({
-  username: String, 
+  username: String,
   hash: String,
   salt: Number,
   name: String,
@@ -103,8 +103,8 @@ var FreelancerSchema = new Schema({
 var Freelancer = mongoose.model('Freelancer', FreelancerSchema)
 
 var ServiceSchema = new Schema({
-  name: String, 
-  description: String, 
+  name: String,
+  description: String,
   price: Number,
   class: String,
   image: String
@@ -132,7 +132,7 @@ app.get('/login/:username/:password/', (req, res) => {
       var correct = isPasswordCorrect(results[0], password);
       if (correct) {
           var sessionKey = putSession(req.params.username);
-          res.cookie("login", {username: req.params.username, key:sessionKey}, 
+          res.cookie("login", {username: req.params.username, key:sessionKey},
           {maxAge: TIMEOUT});
           res.end('SUCCESS');
       } else {
@@ -150,7 +150,7 @@ app.get('/create/:username/:password/:person/:name/:bio/:contact/', (req, res) =
 
       var salt = Math.floor(Math.random() * 1000000000000);
       var hash = getHash(req.params.password, salt);
-      
+
       var free = new Freelancer({
         'username': req.params.username,
         'hash': hash,
@@ -159,17 +159,17 @@ app.get('/create/:username/:password/:person/:name/:bio/:contact/', (req, res) =
         'person_name': req.params.person,
         'bio': req.params.bio,
         'contact': req.params.contact,
-    
+
     });
-      
-    free.save(function (err) { 
+
+    free.save(function (err) {
       if (err) { res.end('ERROR'); }
       else { res.end('Account created!') };
     });
   } else {
     res.end('Username already taken');
   }
-  }); 
+  });
 });
 
 app.post('/upload', upload.single('photo'), (req, res) => {

@@ -12,7 +12,7 @@ httpRequest.open('GET', '/logout/', true);
 
 function login() {
   var httpRequest = new XMLHttpRequest();
-  
+
   let u = document.getElementById('usernameLogin').value;
   let p = document.getElementById('passwordLogin').value;
 
@@ -21,10 +21,10 @@ function login() {
       if (httpRequest.status == 200) {
         if (httpRequest.responseText == 'SUCCESS') {
           window.location = './welcome.html';
-        } else { 
+        } else {
           alert('FAILED TO LOGIN 1');
         }
-      } else { 
+      } else {
         alert('FAILED TO LOGIN 2');
       }
     }
@@ -43,7 +43,7 @@ function login() {
         } else { alert('ERROR'); }
       }
     }
-  
+
     let u = document.getElementById('usernameCreate').value;
     let p = document.getElementById('passwordCreate').value;
     let n = document.getElementById('name').value;
@@ -54,4 +54,27 @@ function login() {
     httpRequest.open('GET', '/create/' + u + '/' + encodeURIComponent(p) + '/' +
    + pName + '/' +  n + '/' + b + '/' + e + '/', true);
     httpRequest.send();
+  }
+
+  function searchServices(){
+    var httpRequest = new XMLHttpRequest();
+    if (!httpRequest) {
+      return false;
+    }
+
+    httpRequest.onreadystatechange = () => {
+      if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status == 200) {
+          console.log(httpRequest.responseText);
+        }
+      }
+    }
+
+    //creating the JSON string
+    var searchKey = document.getElementById('searchButton').value;
+
+    let url = '/search/services/'+searchKey;
+    httpRequest.open('GET', url);
+    httpRequest.send();
+
   }
