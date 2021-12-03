@@ -1,3 +1,14 @@
+function logout() {
+  var httpRequest = new XMLHttpRequest();
+  httpRequest.onreadystatechange = () => {
+    if (httpRequest.readyState == XMLHttpRequest.DONE) {
+      if (httpRequest.status == 200) {
+  }
+}
+  }
+httpRequest.open('GET', '/logout/', true);
+  httpRequest.send();
+}
 
 function login() {
   var httpRequest = new XMLHttpRequest();

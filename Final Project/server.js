@@ -21,6 +21,8 @@ function filterSessions() {
   }
 }
 
+
+
 setInterval(filterSessions, 2000);
 
 function putSession(username, sessionKey) {
@@ -84,7 +86,6 @@ app.use('/',express.static('public_html'));
 var Schema = mongoose.Schema;
 var FreelancerSchema = new Schema({
   username: String, 
-  password: String, 
   hash: String,
   salt: Number,
   name: String,
@@ -163,9 +164,8 @@ app.get('/create/:username/:password/:name/:bio/:contact/', (req, res) => {
   }); 
 });
 
-
-
-
+app.get('/logout/', (req, res) => {
+  res.end("logged out"); });
 // Start the server!
 
 app.listen(80, () => { console.log('server has started'); });
