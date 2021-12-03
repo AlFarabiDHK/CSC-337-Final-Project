@@ -49,8 +49,9 @@ function login() {
     let n = document.getElementById('name').value;
     let b = document.getElementById('bio').value;
     let e = document.getElementById('email').value;
+    let pName = document.getElementById('pName').value;
   
     httpRequest.open('GET', '/create/' + u + '/' + encodeURIComponent(p) + '/' +
-    n + '/' + b + '/' + e + '/', true);
+   + pName + '/' +  n + '/' + b + '/' + e + '/', true);
     httpRequest.send();
   }
