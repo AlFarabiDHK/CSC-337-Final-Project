@@ -48,12 +48,29 @@ function authenticate(req, res, next) {
         res.cookie("login", {username: u, key:key}, {maxAge: TIMEOUT});
         next();
       } else {
-        res.redirect('/index.html');
+        res.redirect('./index.html');
       }
     } else {
-      res.redirect('/index.html');
+      res.redirect('./index.html');
     }
   }
+
+  /** HASHING CODE **/
+
+function getHash(password, salt) {
+  var cryptoHash = crypto.createHash('sha512');
+  var toHash = password + salt;
+  var hash = cryptoHash.update(toHash, 'utf-8').digest('hex');
+  return hash;
+ 
+}
+
+function isPasswordCorrect(account, password) {
+  var hash = getHash(password, account.salt);
+  return account.hash == hash;
+}
+
+/** END HASHING CODE **/
 
 // all app.use calls go here
 
@@ -67,6 +84,7 @@ var Schema = mongoose.Schema;
 var FreelancerSchema = new Schema({
   username: String, 
   password: String, 
+  salt: Number,
   name: String,
   bio: String,
   service: [{type: mongoose.Types.ObjectId, ref: 'Service'}],
@@ -95,6 +113,57 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // all get requests
 app.get('/', (req, res) => { res.redirect('/index.html'); });
 app.get('/testcookies', (req, res)=>{res.send(req.cookies);});
+
+app.get('/login/:username/:password/', (req, res) => {
+  Freelancer.find({username : req.params.username}).exec(function(error, results) {
+    if (results.length == 1) {
+      console.log(results[0]);
+      var password = req.params.password;
+      var correct = isPasswordCorrect(results[0].salt, password);
+      if (correct) {
+          var sessionKey = putSession(req.params.username);
+          res.cookie("login", {username: req.params.username, key:sessionKey}, 
+          {maxAge: TIMEOUT});
+          res.end('SUCCESS');
+      } else {
+        console.log("1");
+        res.end('There was an issue logging in please try again');
+      }
+    } else {
+      res.end('There was an issue logging in please try again');
+      console.log("2");
+    }
+  });
+});
+
+app.get('/create/:username/:password/:name/:bio/:contact/', (req, res) => {
+  Freelancer.find({username : req.params.username}).exec(function(error, results) {
+    if (!error && results.length == 0) {
+
+      var salt = Math.floor(Math.random() * 1000000000000);
+      var hash = getHash(req.params.password, salt);
+      
+      var free = new Freelancer({
+        'username': req.params.username,
+        'password': hash,
+        'salt': salt,
+        'name': req.params.name,
+        'bio': req.params.bio,
+        'contact': req.params.contact,
+    
+    });
+      
+    free.save(function (err) { 
+      if (err) { res.end('ERROR'); }
+      else { res.end('Account created!') };
+    });
+  } else {
+    res.end('Username already taken');
+  }
+  }); 
+});
+
+
 
 
 // Start the server!
