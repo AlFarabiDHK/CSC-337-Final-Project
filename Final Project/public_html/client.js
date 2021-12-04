@@ -130,7 +130,7 @@ function login() {
 
   }
 
-var sellerInfo= null;
+SELL = {};
   function welcomeSeller(username){
     var httpRequest = new XMLHttpRequest();
     if (!httpRequest) {
@@ -140,8 +140,8 @@ var sellerInfo= null;
     httpRequest.onreadystatechange = () => {
       if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status == 200) {
-          sellerInfo = JSON.parse(httpRequest.responseText);
-          console.log(sellerInfo);
+          var x = JSON.parse(httpRequest.responseText);
+          console.log(x);
           window.location.href='./welcome.html';
 
         }
@@ -160,7 +160,7 @@ var sellerInfo= null;
   }
 
   function editWelcomePage(){
-    makeWelcomePage(sellerInfo);
+    makeWelcomePage(SELL[1]);
 
   }
 
@@ -175,7 +175,7 @@ var sellerInfo= null;
     var price = response.price;
 
 
-    document.getElementById('welcomeService').innerHTML="serviceName";
+    document.getElementById('welcomeService').innerHTML= serviceName;
 
 
 
