@@ -50,9 +50,12 @@ function login() {
     let b = document.getElementById('bio').value;
     let e = document.getElementById('email').value;
     let pName = document.getElementById('pName').value;
-
+    let catagory = document.getElementById('serviceCategory').value;
+    let price = document.getElementById('price').value;
+    let photo = document.getElementById('photo').value;
     httpRequest.open('GET', '/create/' + u + '/' + encodeURIComponent(p) + '/' +
-   + pName + '/' +  n + '/' + b + '/' + e + '/', true);
+   + pName + '/' +  n + '/' + b + '/' + e + '/' + catagory + '/' +
+   price + '/' + photo + '/', true);
     httpRequest.send();
   }
 
