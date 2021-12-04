@@ -70,7 +70,8 @@ function login() {
     }
 
     //creating the JSON string
-    var searchKey = document.getElementById('searchButton').value;
+    var searchKey = document.getElementById('searchServiceBar').value;
+    console.log("key"+searchKey)
 
     let url = '/search/services/'+searchKey;
     httpRequest.open('GET', url);

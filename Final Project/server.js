@@ -120,7 +120,7 @@ app.get('/testcookies', (req, res)=>{res.send(req.cookies);});
 app.get('/login/:username/:password/', (req, res) => {
   Freelancer.find({username : req.params.username}).exec(function(error, results) {
     if (results.length == 1) {
-      console.log(results[0]);
+      // console.log(results[0]);
       var password = req.params.password;
       var correct = isPasswordCorrect(results[0], password);
       if (correct) {
@@ -138,14 +138,14 @@ app.get('/login/:username/:password/', (req, res) => {
 });
 
 app.get('/search/services/:keyWord', (req, res) => {
-  FreelancerSchema.find({name:{$regex: '.*'+req.params.keyWord+'.*' } })
+  Freelancer.find({name:{$regex: '.*'+req.params.keyWord+'.*' } })
     .exec(function (err, results) {
     if (err) return handleError(err);
     res.end(JSON.stringify(results));
   })
 });
 
-app.get('/create/:username/:password/:name/:bio/:contact/', (req, res) => {
+app.get('/create/:username/:password/:person/:name/:bio/:contact/', (req, res) => {
   Freelancer.find({username : req.params.username}).exec(function(error, results) {
     if (!error && results.length == 0) {
 
@@ -157,6 +157,7 @@ app.get('/create/:username/:password/:name/:bio/:contact/', (req, res) => {
         'hash': hash,
         'salt': salt,
         'name': req.params.name,
+        'person_name': req.params.person,
         'bio': req.params.bio,
         'contact': req.params.contact,
 
