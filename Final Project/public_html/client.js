@@ -53,14 +53,18 @@ function login() {
     let catagory = document.getElementById('serviceCategory').value;
     let price = document.getElementById('price').value;
     let photo = document.getElementById('photos').value;
-    httpRequest.open('GET', '/create/' + u + '/' + encodeURIComponent(p) + '/' +
+    console.log(pName);
+    var url ='/create/' + u + '/' + encodeURIComponent(p) + '/'
    + pName + '/' +  n + '/' + b + '/' + e + '/' + catagory + '/' +
-   price + '/' + photo + '/', true);
+   price + '/' + photo + '/';
+
+   console.log(url);
+    httpRequest.open('GET',url, true);
     httpRequest.send();
   }
 
   function searchServices(){
-    console.log(1);
+
     var httpRequest = new XMLHttpRequest();
     if (!httpRequest) {
       return false;
@@ -83,8 +87,6 @@ function login() {
         }
       }
 
-
-    //creating the JSON string
     var searchKey = document.getElementById('searchServiceBar').value;
 
 

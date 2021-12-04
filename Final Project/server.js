@@ -133,7 +133,7 @@ app.get('/testcookies', (req, res)=>{res.send(req.cookies);});
 app.get('/login/:username/:password/', (req, res) => {
   Freelancer.find({username : req.params.username}).exec(function(error, results) {
     if (results.length == 1) {
-      // console.log(results[0]);
+      //console.log(results[0]);
       var password = req.params.password;
       var correct = isPasswordCorrect(results[0], password);
       if (correct) {
@@ -171,7 +171,7 @@ app.get('/create/:username/:password/:person/:name/:bio/:contact/:catagory/:pric
         'hash': hash,
         'salt': salt,
         'name': req.params.name,
-        'person_name': req.params.person,
+        'personName': req.params.person,
         'bio': req.params.bio,
         'contact': req.params.contact,
         'class':req.params.catagory,
@@ -179,14 +179,17 @@ app.get('/create/:username/:password/:person/:name/:bio/:contact/:catagory/:pric
         'image': req.params.photo
 
     });
+    console.log(free);
 
     free.save(function (err) {
       if (err) { res.end('ERROR'); }
-      else { res.end('Account created!') };
+      else { res.end('Account created!')
+    };
     });
   } else {
     res.end('Username already taken');
   }
+
   });
 });
 
