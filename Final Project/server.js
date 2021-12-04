@@ -24,7 +24,6 @@ app.use(cookieParser());
 
 TIMEOUT = 500000;
 var sessions = {};
-
 function filterSessions() {
   let now = Date.now();
   for (e in sessions) {
@@ -34,6 +33,8 @@ function filterSessions() {
     }
   }
 }
+
+
 
 
 
