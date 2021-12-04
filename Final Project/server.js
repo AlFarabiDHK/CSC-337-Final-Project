@@ -159,7 +159,7 @@ app.get('/search/services/:keyWord', (req, res) => {
   })
 });
 
-app.get('/create/:username/:password/:person/:name/:bio/:contact/', (req, res) => {
+app.get('/create/:username/:password/:person/:name/:bio/:contact/:catagory/:price/:photo', (req, res) => {
   Freelancer.find({username : req.params.username}).exec(function(error, results) {
     if (!error && results.length == 0) {
 
@@ -174,6 +174,9 @@ app.get('/create/:username/:password/:person/:name/:bio/:contact/', (req, res) =
         'person_name': req.params.person,
         'bio': req.params.bio,
         'contact': req.params.contact,
+        'class':req.params.catagory,
+        'price': req.params.price,
+        'image': req.params.photo
 
     });
 
