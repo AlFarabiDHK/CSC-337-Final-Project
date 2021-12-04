@@ -4,6 +4,11 @@ const express = require('express');
 const parser = require('body-parser')
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
+const multer = require('multer');
+const upload = multer({dest: __dirname + '/uploads/images'});
+var fs = require('fs');
+var path = require('path');
+require('dotenv/config');
 const app = express();
 app.use(cookieParser());
 // authenticate and login functions
@@ -89,6 +94,7 @@ var FreelancerSchema = new Schema({
   hash: String,
   salt: Number,
   name: String,
+  personName: String,
   bio: String,
   service: [{type: mongoose.Types.ObjectId, ref: 'Service'}],
   contact: String,
@@ -110,7 +116,8 @@ var Service = mongoose.model('Service', ServiceSchema );
 
 const db  = mongoose.connection;
 const mongoDBURL = 'mongodb://127.0.0.1/';
-mongoose.connect(mongoDBURL, { useNewUrlParser: true });
+mongoose.connect(mongoDBURL, { useNewUrlParser: true,
+  useUnifiedTopology: true });
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // all get requests
@@ -172,6 +179,14 @@ app.get('/create/:username/:password/:person/:name/:bio/:contact/', (req, res) =
   }
   });
 });
+
+app.post('/upload', upload.single('photo'), (req, res) => {
+  if(req.file) {
+      res.json(req.file);
+  }
+  else throw 'error';
+});
+
 
 app.get('/logout/', (req, res) => {
   res.end("logged out"); });
