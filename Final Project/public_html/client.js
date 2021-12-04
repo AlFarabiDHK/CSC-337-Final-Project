@@ -26,8 +26,8 @@ function login() {
   httpRequest.onreadystatechange = () => {
     if (httpRequest.readyState == XMLHttpRequest.DONE) {
       if (httpRequest.status == 200) {
-        if (httpRequest.responseText == 'SUCCESS') {
-          window.location = './welcome.html';
+        if (httpRequest.responseText != false) {
+          welcomeSeller(httpRequest.responseText);
         } else {
           alert('FAILED TO LOGIN 1');
         }
@@ -124,11 +124,59 @@ function login() {
       resultsString+="Description: "+description+"<br>";
       resultsString+="Contact: "+contact+"<br>";
       resultsString+="Price: "+price+"<br></div>";
-
-
-
     }
 
     return resultsString;
+
+  }
+
+var sellerInfo= null;
+  function welcomeSeller(username){
+    var httpRequest = new XMLHttpRequest();
+    if (!httpRequest) {
+      return false;
+    }
+
+    httpRequest.onreadystatechange = () => {
+      if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status == 200) {
+          sellerInfo = JSON.parse(httpRequest.responseText);
+          console.log(sellerInfo);
+          window.location.href='./welcome.html';
+
+        }
+          else{
+            console.log('ERRRRROR');
+          }
+          }
+        }
+
+
+
+    let url = '/welcome/'+username;
+    httpRequest.open('GET', url);
+    httpRequest.send();
+
+  }
+
+  function editWelcomePage(){
+    makeWelcomePage(sellerInfo);
+
+  }
+
+
+  function makeWelcomePage(response){
+    var serviceName = response.name;
+    var personName = response.personName;
+    var serviceType = response.class;
+    var image = response.image;
+    var description = response.bio;
+    var contact= response.contact;
+    var price = response.price;
+
+
+    document.getElementById('welcomeService').innerHTML="serviceName";
+
+
 
   }

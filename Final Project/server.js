@@ -140,12 +140,12 @@ app.get('/login/:username/:password/', (req, res) => {
           var sessionKey = putSession(req.params.username);
           res.cookie("login", {username: req.params.username, key:sessionKey},
           {maxAge: TIMEOUT});
-          res.end('SUCCESS');
+          res.end(req.params.username);
       } else {
-        res.end('There was an issue logging in please try again');
+        res.end(false);
       }
     } else {
-      res.end('There was an issue logging in please try again');
+      res.end(false);
     }
   });
 });
@@ -191,6 +191,14 @@ app.get('/create/:username/:password/:person/:name/:bio/:contact/:catagory/:pric
   }
 
   });
+});
+
+app.get('/welcome/:username', (req, res) => {
+  Freelancer.findOne({username : req.params.username})
+    .exec(function (err, results) {
+    if (err) return handleError(err);
+    res.end(JSON.stringify(results));
+  })
 });
 
 
