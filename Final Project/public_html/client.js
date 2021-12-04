@@ -3,9 +3,10 @@ function logout() {
   httpRequest.onreadystatechange = () => {
     if (httpRequest.readyState == XMLHttpRequest.DONE) {
       if (httpRequest.status == 200) {
+    }
   }
 }
-  }
+
 httpRequest.open('GET', '/logout/', true);
   httpRequest.send();
 }
