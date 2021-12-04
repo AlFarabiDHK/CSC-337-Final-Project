@@ -24,7 +24,7 @@ app.use(cookieParser());
 
 TIMEOUT = 500000;
 var sessions = {};
-var state = false;
+STATE = false;
 function filterSessions() {
   let now = Date.now();
   for (e in sessions) {
@@ -35,9 +35,9 @@ function filterSessions() {
   }
 }
 
-function loggedOut(state) {
+function loggedOut() {
   for (e in sessions) {
-    if (state) {
+    if (STATE) {
       console.log("logged out");
       delete sessions[e];
     }
@@ -205,8 +205,7 @@ app.get('/create/:username/:password/:person/:name/:bio/:contact/:catagory/:pric
 
 
 app.get('/logout/', (req, res) => {
-  state = true;
-  loggedOut(state);
+  STATE = true;
   res.end("logged out"); });
 // Start the server!
 
