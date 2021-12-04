@@ -57,6 +57,7 @@ function login() {
   }
 
   function searchServices(){
+    console.log(1);
     var httpRequest = new XMLHttpRequest();
     if (!httpRequest) {
       return false;
@@ -67,15 +68,10 @@ function login() {
         if (httpRequest.status == 200) {
           var responseArray = JSON.parse(httpRequest.responseText);
           //TODO - IF LEN OF RESPONSE 0
-          for (var i=0;i<responseArray.length;i++){
-            var response = responseArray[i];
-            var serviceName = response.name;
-            var personName = response.personName;
-            var serviceType = response.class;
-            var image = response.image;
-            var description = response.bio;
-            var contact= response.contact;
-            var price = response.price;
+          var resultsString=constructSearchResult(responseArray);
+          console.log(resultsString);
+          console.log(httpRequest.responseText)
+          document.getElementById('searchResults').innerHTML=resultsString;
 
           }
 
@@ -83,7 +79,7 @@ function login() {
 
         }
       }
-    }
+
 
     //creating the JSON string
     var searchKey = document.getElementById('searchServiceBar').value;
@@ -92,5 +88,33 @@ function login() {
     let url = '/search/services/'+searchKey;
     httpRequest.open('GET', url);
     httpRequest.send();
+
+  }
+
+  function constructSearchResult(responseArray){
+    var resultsString=""
+    for (var i=0;i<responseArray.length;i++){
+      var response = responseArray[i];
+      var serviceName = response.name;
+      var personName = response.personName;
+      var serviceType = response.class;
+      var image = response.image;
+      var description = response.bio;
+      var contact= response.contact;
+      var price = response.price;
+
+      resultsString+="Service: "+serviceName+"<br>";
+      resultsString+="Freelancer: "+personName+"<br>";
+      resultsString+="Service Category: "+serviceType+"<br>";
+      resultsString+="Images: "+image+"<br>";
+      resultsString+="Description: "+description+"<br>";
+      resultsString+="Contact: "+contact+"<br>";
+      resultsString+="Price: "+price+"<br>";
+      resultsString+="<br><br><br>"
+
+
+    }
+
+    return resultsString;
 
   }
