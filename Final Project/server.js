@@ -5,7 +5,16 @@ const parser = require('body-parser')
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const multer = require('multer');
-const upload = multer({dest: __dirname + '/uploads/images'});
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'uploads')
+  },
+  filename: (req, file, cb) => {
+      cb(null, file.fieldname + '-' + Date.now())
+  }
+});
+
+var upload = multer({ storage: storage });
 var fs = require('fs');
 var path = require('path');
 require('dotenv/config');
@@ -86,6 +95,11 @@ app.use(parser.text({type: '*/*'}));
 
 app.use('/',express.static('public_html'));
 
+app.use(parser.urlencoded({ extended: false }))
+app.use(parser.json())
+  
+// Set EJS as templating engine 
+app.set("view engine", "ejs");
 
 // Create the schema (in other words, the database object structure specification)
 var Schema = mongoose.Schema;
@@ -100,7 +114,6 @@ var FreelancerSchema = new Schema({
   price: Number,
   class: String,
   image: String,
-
 });
 
 var Freelancer = mongoose.model('Freelancer', FreelancerSchema)
@@ -173,12 +186,6 @@ app.get('/create/:username/:password/:person/:name/:bio/:contact/', (req, res) =
   });
 });
 
-app.post('/upload', upload.single('photo'), (req, res) => {
-  if(req.file) {
-      res.json(req.file);
-  }
-  else throw 'error';
-});
 
 
 app.get('/logout/', (req, res) => {
