@@ -96,21 +96,14 @@ var FreelancerSchema = new Schema({
   name: String,
   personName: String,
   bio: String,
-  service: [{type: mongoose.Types.ObjectId, ref: 'Service'}],
   contact: String,
+  price: Number,
+  class: String,
+  image: String,
+
 });
 
 var Freelancer = mongoose.model('Freelancer', FreelancerSchema)
-
-var ServiceSchema = new Schema({
-  name: String,
-  description: String,
-  price: Number,
-  class: String,
-  image: String
- });
-var Service = mongoose.model('Service', ServiceSchema );
-
 
 // mongodb code
 
