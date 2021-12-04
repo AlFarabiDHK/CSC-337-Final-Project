@@ -74,11 +74,13 @@ function login() {
       if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status == 200) {
           var responseArray = JSON.parse(httpRequest.responseText);
-          //TODO - IF LEN OF RESPONSE 0
-          var resultsString=constructSearchResult(responseArray);
-          console.log(resultsString);
-          console.log(httpRequest.responseText)
-          document.getElementById('searchResults').innerHTML=resultsString;
+          if (responseArray.length==0){
+            document.getElementById('searchResults').innerHTML="<h3>Sorry this service is not available. Try searching something else!</h3>";
+          }else{
+            var resultsString=constructSearchResult(responseArray);
+            document.getElementById('searchResults').innerHTML=resultsString;
+          }
+
 
           }
 
@@ -107,15 +109,15 @@ function login() {
       var description = response.bio;
       var contact= response.contact;
       var price = response.price;
-
-      resultsString+="Service: "+serviceName+"<br>";
-      resultsString+="Freelancer: "+personName+"<br>";
+      resultsString+="<div class='search'>";
+      resultsString+="<h3>Service: "+serviceName+"</h3><br>";
+      resultsString+="Freelancer Name: "+personName+"<br>";
       resultsString+="Service Category: "+serviceType+"<br>";
       resultsString+="Images: "+image+"<br>";
       resultsString+="Description: "+description+"<br>";
       resultsString+="Contact: "+contact+"<br>";
-      resultsString+="Price: "+price+"<br>";
-      resultsString+="<br><br><br>"
+      resultsString+="Price: "+price+"<br></div>";
+
 
 
     }

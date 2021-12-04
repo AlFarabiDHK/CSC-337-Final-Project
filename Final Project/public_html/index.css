@@ -74,6 +74,13 @@ h2{
   font-size: 4rem;
 }
 
+h3{
+  font-family: 'Scope One', serif;
+  font-size: 3rem;
+  margin: 0;
+  display: inline-block;
+}
+
 #heading{
   position: relative;
   display: inline-block;
@@ -109,6 +116,7 @@ h2{
 
   text-align: center;
 
+
 }
 
 .searchBar{
@@ -120,6 +128,28 @@ h2{
   background-color: #dbafa2;
 }
 
+#searchResults{
+  display: flex;
+  text-align: left;
+  padding: 0 5%;
+  flex-wrap: wrap;
+
+
+
+
+}
+
+.search{
+    padding: 5% 7%;
+    flex: 0 1 30%;
+    background-color: #edd2c8;
+    margin: 2%;
+    line-height: 2.5rem;
+    font-family: 'Scope One', serif;
+    font-size: 1.3rem;
+
+
+}
 #loginDiv{
   font-size: 1.5rem;
 }
