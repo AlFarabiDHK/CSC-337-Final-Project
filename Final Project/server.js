@@ -17,7 +17,6 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 var fs = require('fs');
 var path = require('path');
-require('dotenv/config');
 const app = express();
 app.use(cookieParser());
 // authenticate and login functions
@@ -197,7 +196,9 @@ app.get('/create/:username/:password/:person/:name/:bio/:contact/:catagory/:pric
 
 
 app.get('/logout/', (req, res) => {
+  
   res.end("logged out"); });
+  
 // Start the server!
 
 app.listen(80, () => { console.log('server has started'); });

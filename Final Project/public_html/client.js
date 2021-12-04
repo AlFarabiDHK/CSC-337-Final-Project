@@ -1,8 +1,15 @@
+// TODO: implement clicking on the div that take them to a new page
+// TODO: Implement logout
+// TODO: Implement the edit feature
+// TODO: onclick go to lower divs
+
+
 function logout() {
   var httpRequest = new XMLHttpRequest();
   httpRequest.onreadystatechange = () => {
     if (httpRequest.readyState == XMLHttpRequest.DONE) {
       if (httpRequest.status == 200) {  
+
     }
   }
 }
