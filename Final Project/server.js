@@ -97,8 +97,8 @@ app.use('/',express.static('public_html'));
 
 app.use(parser.urlencoded({ extended: false }))
 app.use(parser.json())
-  
-// Set EJS as templating engine 
+
+// Set EJS as templating engine
 app.set("view engine", "ejs");
 
 // Create the schema (in other words, the database object structure specification)
@@ -151,7 +151,8 @@ app.get('/login/:username/:password/', (req, res) => {
 });
 
 app.get('/search/services/:keyWord', (req, res) => {
-  Freelancer.find({name:{$regex: '.*'+req.params.keyWord+'.*' } })
+  Freelancer.find({ $or: [{name:{$regex: '.*'+req.params.keyWord+'.*'}},
+  {class:{$regex: '.*'+req.params.keyWord+'.*'}}]})
     .exec(function (err, results) {
     if (err) return handleError(err);
     res.end(JSON.stringify(results));

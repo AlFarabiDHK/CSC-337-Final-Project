@@ -34,44 +34,64 @@
     <div id="SignUpDiv">
       Enter Your Name:
       <input class="searchBar signUpBar" id="pName"
-      type="text" name="" value="">
+      type="text" name="" value="" required>
       <br>
       <br>
       Name of the Service:
       <input class="searchBar signUpBar" id="name"
-      type="text" name="" value="">
+      type="text" name="" value="" required>
       <br>
       <br>
+
+      <label for="serviceCategory">Choose a Category for your Service:</label>
+      <select class="searchBar signUpBar" name="serviceCategory" id="serviceCategory" required>
+        <option value="development">IT & Development</option>
+        <option value="design">Design & Creative</option>
+        <option value="sales">Sales & Marketing</option>
+        <option value="writing">Writing & Translation</option>
+        <option value="support">Admin & Customer Support</option>
+        <option value="finance">Finance</option>
+        <option value="legal">Legal</option>
+        <option value="engineering">Engineering & Architecture</option>
+        <option value="homeService">Home Services</option>
+        <option value="other">Other</option>
+      </select>
+      <br><br>
+
       Describe Your Service:
       <input class="searchBar signUpBar" type="text" id = "bio"
-      name="" value="">
+      name="" value="" required>
+      <br>
+      <br>
+
+      Price of the Service:
+      <input class="searchBar signUpBar" type="number" id = "price"
+      name="" value="" required>
       <br>
       <br>
 
       Upload Photos:
-      <form action="/upload" method="post" enctype="multipart/form-data">
-        <input class="signUpBar Button " type="file" accept="image/*" name="photo" >
-        <input class="UploadPhoto Button" type="submit" value="Upload">
-      </form>
+      <input class="searchBar signUpBar" type="text" id = "photos"
+      name="" value="" >
+      <br>
+      <br>
 
-      <br>
-      <br>
 
       Contact Information (Email):
       <input class="searchBar signUpBar" type="text" id = "email"
-      name="" value="">
+      name="" value="" required>
       <br>
       <br>
 
       Username:
       <input class="searchBar signUpBar" id="usernameCreate"
-      type="text" name="" value="">
+      type="text" name="" value="" required>
       <br>
       <br>
 
       Password:
       <input class="searchBar signUpBar" id="passwordCreate"
-      type="text" name="" value="">
+      type="password" name="" value="" required>
       <br>
       <br>
 

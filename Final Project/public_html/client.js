@@ -50,7 +50,7 @@ function login() {
     let b = document.getElementById('bio').value;
     let e = document.getElementById('email').value;
     let pName = document.getElementById('pName').value;
-  
+
     httpRequest.open('GET', '/create/' + u + '/' + encodeURIComponent(p) + '/' +
    + pName + '/' +  n + '/' + b + '/' + e + '/', true);
     httpRequest.send();
@@ -65,14 +65,29 @@ function login() {
     httpRequest.onreadystatechange = () => {
       if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status == 200) {
-          console.log(httpRequest.responseText);
+          var responseArray = JSON.parse(httpRequest.responseText);
+          //TODO - IF LEN OF RESPONSE 0
+          for (var i=0;i<responseArray.length;i++){
+            var response = responseArray[i];
+            var serviceName = response.name;
+            var personName = response.personName;
+            var serviceType = response.class;
+            var image = response.image;
+            var description = response.bio;
+            var contact= response.contact;
+            var price = response.price;
+
+          }
+
+
+
         }
       }
     }
 
     //creating the JSON string
     var searchKey = document.getElementById('searchServiceBar').value;
-    console.log("key"+searchKey)
+
 
     let url = '/search/services/'+searchKey;
     httpRequest.open('GET', url);
