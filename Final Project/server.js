@@ -201,6 +201,14 @@ app.get('/welcome/:username', (req, res) => {
   })
 });
 
+app.get('/edit/:username', (req, res) => {
+  Freelancer.findOne({username : req.params.username})
+    .exec(function (err, results) {
+      if (err) return handleError(err);
+    console.log(results._id);
+  });
+  //implement update document
+  });
 
 
 app.get('/logout/', (req, res) => {
