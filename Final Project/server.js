@@ -5,12 +5,13 @@ const parser = require('body-parser')
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const multer = require('multer');
+
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      cb(null, 'uploads')
+      cb(null, 'uploads');
   },
   filename: (req, file, cb) => {
-      cb(null, file.fieldname + '-' + Date.now())
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
   }
 });
 
@@ -228,6 +229,8 @@ app.get('/logout/', (req, res) => {
   console.log(req.cookies.login.username);
   loggedOut(req.cookies.login.username)
   res.end("logged out"); });
+
+
   
 // Start the server!
 
