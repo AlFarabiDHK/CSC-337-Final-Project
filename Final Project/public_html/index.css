@@ -216,7 +216,11 @@ h3{
   border-radius: 30px;
 }
 
-
+#saveChanges{
+  position: fixed;
+  bottom:3%;
+  left:5%;
+}
 .editBar{
   margin: 7%;
 }

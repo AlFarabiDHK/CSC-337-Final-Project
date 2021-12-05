@@ -6,7 +6,7 @@ function edit() {
   var httpRequest = new XMLHttpRequest();
   httpRequest.onreadystatechange = () => {
     if (httpRequest.readyState == XMLHttpRequest.DONE) {
-      if (httpRequest.status == 200) {  
+      if (httpRequest.status == 200) {
         console.log(httpRequest.response);
     }
   }
@@ -187,6 +187,12 @@ function getSellerInfo(){
     document.getElementById('welcomeContact').innerHTML= contact;
     document.getElementById('welcomePrice').innerHTML= price;
 
+    var editDivs= document.getElementsByClassName('editDiv');
+    for(let i=0;i<editDivs.length;i++){
+      editDivs[i].innerHTML="";
+    }
+
+
   }
 
   function editSellerInformation(){
@@ -210,5 +216,6 @@ function getSellerInfo(){
     editCategory+='<option value="other">Other</option>';
     editCategory+='</select>';
     document.getElementById('editWelcomeCategory').innerHTML=editCategory;
+    document.getElementById('saveChangesdiv').innerHTML='<button id="saveChanges" onclick="editSellerInformation();" class="Button" type="button" name="button">Save Changes</button>';
 
   }
