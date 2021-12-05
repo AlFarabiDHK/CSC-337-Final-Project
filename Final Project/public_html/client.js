@@ -210,7 +210,7 @@ function getSellerInfo(){
     editDivs[6].innerHTML="<input class='searchBar editBar' id='editPrice' 'type='text' value=" + price + ">";
     var editCategory="";
 
-    editCategory+='<select class="searchBar editBar" name="serviceCategory" id="serviceCategory" required>';
+    editCategory+='<select class="searchBar editBar" name="serviceCategory" id="editServiceCategory" required>';
     editCategory+='<option value="development">IT & Development</option>';
     editCategory+='<option value="design">Design & Creative</option>';
     editCategory+='<option value="sales">Sales & Marketing</option>';
@@ -223,6 +223,37 @@ function getSellerInfo(){
     editCategory+='<option value="other">Other</option>';
     editCategory+='</select>';
     document.getElementById('editWelcomeCategory').innerHTML=editCategory;
-    document.getElementById('saveChangesdiv').innerHTML='<button id="saveChanges" onclick="editSellerInformation();" class="Button" type="button" name="button">Save Changes</button>';
+    document.getElementById('saveChangesdiv').innerHTML='<button id="saveChanges" onclick="submitEditedInfo();getSellerInfo();" class="Button" type="button" name="button">Save Changes</button>';
 
+  }
+
+  function submitEditedInfo(){
+    var httpRequest = new XMLHttpRequest();
+    if (!httpRequest) {
+      return false;
+    }
+  
+    httpRequest.onreadystatechange = () => {
+      if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status == 200) {
+          
+  
+          }
+  
+  
+        }
+      }
+      s = document.getElementById('editServiceName').value;
+      p = document.getElementById('editPersonName').value;
+      e = document.getElementById('editServiceCategory');
+      type = e.options[e.selectedIndex].text;
+      i = document.getElementById('editImage').value;
+      d = document.getElementById('editDescription').value;
+      c = document.getElementById('editContact').value;
+      price = document.getElementById('editPrice').value;
+
+    let url = '/edit/'+s+'/'+p+'/'+type+'/'+i+'/'+d+'/'+c+'/'+price+'/';
+    httpRequest.open('GET', url);
+    httpRequest.send();
+  
   }

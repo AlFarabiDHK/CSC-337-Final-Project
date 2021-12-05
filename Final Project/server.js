@@ -140,7 +140,6 @@ app.get('/login/:username/:password/', (req, res) => {
           var sessionKey = putSession(req.params.username);
           res.cookie("login", {username: req.params.username, key:sessionKey},
           {maxAge: TIMEOUT});
-          console.log(results[0]);
           res.end(req.params.username);
       } else {
         res.end(false);
@@ -194,23 +193,32 @@ app.get('/create/:username/:password/:person/:name/:bio/:contact/:catagory/:pric
   });
 });
 
-app.get('/welcome/:username', (req, res) => {
-  Freelancer.findOne({username : req.params.username})
+app.get('/welcome/', (req, res) => {
+  Freelancer.findOne({username : req.cookies.login.username})
     .exec(function (err, results) {
     if (err) return handleError(err);
     res.end(JSON.stringify(results));
   })
 });
 
-app.get('/edit/:username', (req, res) => {
-  Freelancer.findOne({username : req.params.username})
-    .exec(function (err, results) {
-      if (err) return handleError(err);
-
-    console.log(results._id);
+app.get('/edit/:name/:personName/:catagory/:photo/:bio/:contact/:price', (req, res) => {
+  
+      Freelancer.findOneAndUpdate({username : req.cookies.login.username}, {
+        'name': req.params.name,
+        'personName': req.params.personName,
+        'bio': req.params.bio,
+        'contact': req.params.contact,       
+        'price': req.params.price,
+        'class': req.params.catagory,
+        'image': req.params.photo
+      }, function (err, docs) {
+        if (err){
+            console.log(err);
+        } 
+      })
   });
   //implement update document
-  });
+
 
 
 app.get('/logout/', (req, res) => {
