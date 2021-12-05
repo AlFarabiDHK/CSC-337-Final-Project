@@ -33,6 +33,9 @@ function filterSessions() {
   }
 }
 
+function loggedOut(username){
+  delete sessions[username];
+}
 
 
 
@@ -222,7 +225,8 @@ app.get('/edit/:name/:personName/:catagory/:photo/:bio/:contact/:price', (req, r
 
 
 app.get('/logout/', (req, res) => {
-  
+  console.log(req.cookies.login.username);
+  loggedOut(req.cookies.login.username)
   res.end("logged out"); });
   
 // Start the server!
