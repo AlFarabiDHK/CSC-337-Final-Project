@@ -2,7 +2,22 @@
 // TODO: Implement logout
 // TODO: Implement the edit feature
 // TODO: onclick go to lower divs
+function edit() {
+  var httpRequest = new XMLHttpRequest();
+  httpRequest.onreadystatechange = () => {
+    if (httpRequest.readyState == XMLHttpRequest.DONE) {
+      if (httpRequest.status == 200) {  
+        console.log(httpRequest.response);
+    }
+  }
+}
 
+let u = document.getElementById('usernameLogin').value;
+
+let url = '/edit/' + u;
+ httpRequest.open('GET', url, true);
+  httpRequest.send();
+}
 
 function logout() {
   var httpRequest = new XMLHttpRequest();
