@@ -182,7 +182,14 @@ h3{
 
 #editInfo{
   position: fixed;
-  bottom:1%;
+  bottom:3%;
+  right:5%;
+
+}
+
+#viewInfoButton{
+  position: fixed;
+  bottom:11%;
   right:5%;
 
 }
@@ -196,7 +203,7 @@ h3{
   padding: 5% 3%;
 }
 #flowersDiv{
-  position: absolute;
+  position: fixed;
   width:30%;
   height: 100%;
   left:0%;
@@ -207,6 +214,11 @@ h3{
   width:80%;
   margin-top: 30%;
   border-radius: 30px;
+}
+
+
+.editBar{
+  margin: 7%;
 }
 .InfoDivs{
 

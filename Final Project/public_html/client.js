@@ -8,7 +8,7 @@ function logout() {
   var httpRequest = new XMLHttpRequest();
   httpRequest.onreadystatechange = () => {
     if (httpRequest.readyState == XMLHttpRequest.DONE) {
-      if (httpRequest.status == 200) {  
+      if (httpRequest.status == 200) {
 
     }
   }
@@ -17,29 +17,7 @@ function logout() {
   httpRequest.send();
 }
 
-function login() {
-  var httpRequest = new XMLHttpRequest();
 
-  let u = document.getElementById('usernameLogin').value;
-  let p = document.getElementById('passwordLogin').value;
-
-  httpRequest.onreadystatechange = () => {
-    if (httpRequest.readyState == XMLHttpRequest.DONE) {
-      if (httpRequest.status == 200) {
-        if (httpRequest.responseText != false) {
-          welcomeSeller(httpRequest.responseText);
-        } else {
-          alert('FAILED TO LOGIN 1');
-        }
-      } else {
-        alert('FAILED TO LOGIN 2');
-      }
-    }
-  }
-
-  httpRequest.open('GET', '/login/' + u + '/' + encodeURIComponent(p), true);
-  httpRequest.send();
-}
 
   function createAccount() {
     var httpRequest = new XMLHttpRequest();
@@ -92,7 +70,6 @@ function login() {
           }
 
 
-
         }
       }
 
@@ -130,41 +107,53 @@ function login() {
 
   }
 
-SELL = {};
-  function welcomeSeller(username){
+  function login() {
     var httpRequest = new XMLHttpRequest();
-    if (!httpRequest) {
-      return false;
-    }
+
+    let u = document.getElementById('usernameLogin').value;
+    let p = document.getElementById('passwordLogin').value;
 
     httpRequest.onreadystatechange = () => {
-      if (httpRequest.readyState === XMLHttpRequest.DONE) {
+      if (httpRequest.readyState == XMLHttpRequest.DONE) {
         if (httpRequest.status == 200) {
-          var x = JSON.parse(httpRequest.responseText);
-          console.log(x);
-          window.location.href='./welcome.html';
+          if (httpRequest.responseText != false) {
+            window.location="welcome.html";
 
-        }
-          else{
-            console.log('ERRRRROR');
+          } else {
+            alert('FAILED TO LOGIN 1');
           }
-          }
+        } else {
+          alert('FAILED TO LOGIN 2');
         }
+      }
+    }
 
-
-
-    let url = '/welcome/'+username;
-    httpRequest.open('GET', url);
+    httpRequest.open('GET', '/login/' + u + '/' + encodeURIComponent(p), true);
     httpRequest.send();
-
   }
 
-  function editWelcomePage(){
-    makeWelcomePage(SELL[1]);
-
+function getSellerInfo(){
+  var httpRequest = new XMLHttpRequest();
+  if (!httpRequest) {
+    return false;
   }
 
+  httpRequest.onreadystatechange = () => {
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+      if (httpRequest.status == 200) {
+        var response = JSON.parse(httpRequest.responseText);
+        makeWelcomePage(response);
 
+        }
+
+
+      }
+    }
+  let url = '/welcome/';
+  httpRequest.open('GET', url);
+  httpRequest.send();
+
+}
   function makeWelcomePage(response){
     var serviceName = response.name;
     var personName = response.personName;
@@ -176,7 +165,35 @@ SELL = {};
 
 
     document.getElementById('welcomeService').innerHTML= serviceName;
+    document.getElementById('welcomeName').innerHTML= personName;
+    document.getElementById('welcomeCategory').innerHTML= serviceType;
+    document.getElementById('welcomeImage').innerHTML= image;
+    document.getElementById('welcomeDescription').innerHTML= description;
+    document.getElementById('welcomeContact').innerHTML= contact;
+    document.getElementById('welcomePrice').innerHTML= price;
 
+  }
 
+  function editSellerInformation(){
+    var editDivs=document.getElementsByClassName('editDiv');
+
+    for(let i=0;i<editDivs.length;i++){
+      editDivs[i].innerHTML="<input class='searchBar editBar' type='text' value=''>";
+    }
+    var editCategory="";
+
+    editCategory+='<select class="searchBar editBar" name="serviceCategory" id="serviceCategory" required>';
+    editCategory+='<option value="development">IT & Development</option>';
+    editCategory+='<option value="design">Design & Creative</option>';
+    editCategory+='<option value="sales">Sales & Marketing</option>';
+    editCategory+='<option value="writing">Writing & Translation</option>';
+    editCategory+='<option value="support">Admin & Customer Support</option>';
+    editCategory+='<option value="finance">Finance</option>';
+    editCategory+='<option value="legal">Legal</option>';
+    editCategory+='<option value="engineering">Engineering & Architecture</option>';
+    editCategory+='<option value="homeService">Home Services</option>';
+    editCategory+='<option value="other">Other</option>';
+    editCategory+='</select>';
+    document.getElementById('editWelcomeCategory').innerHTML=editCategory;
 
   }

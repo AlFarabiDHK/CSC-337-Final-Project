@@ -140,7 +140,7 @@ app.get('/login/:username/:password/', (req, res) => {
           var sessionKey = putSession(req.params.username);
           res.cookie("login", {username: req.params.username, key:sessionKey},
           {maxAge: TIMEOUT});
-          res.end(req.params.username);
+          res.end("SUCCESS");
       } else {
         res.end(false);
       }
@@ -193,20 +193,19 @@ app.get('/create/:username/:password/:person/:name/:bio/:contact/:catagory/:pric
   });
 });
 
-app.get('/welcome/:username', (req, res) => {
-  Freelancer.findOne({username : req.params.username})
-    .exec(function (err, results) {
-    if (err) return handleError(err);
+app.get('/welcome/', (req, res) => {
+  Freelancer.findOne({username : req.cookies.login.username}).exec(function(error, results) {
+    if (error) return handleError(error);
     res.end(JSON.stringify(results));
-  })
+  });
 });
 
 
 
 app.get('/logout/', (req, res) => {
-  
+
   res.end("logged out"); });
-  
+
 // Start the server!
 
 app.listen(80, () => { console.log('server has started'); });
