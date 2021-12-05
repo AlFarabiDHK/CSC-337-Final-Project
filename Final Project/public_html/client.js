@@ -1,7 +1,4 @@
-// TODO: implement clicking on the div that take them to a new page
-// TODO: Implement logout
-// TODO: Implement the edit feature
-// TODO: onclick go to lower divs
+
 function edit() {
   var httpRequest = new XMLHttpRequest();
   httpRequest.onreadystatechange = () => {
@@ -196,11 +193,21 @@ function getSellerInfo(){
   }
 
   function editSellerInformation(){
-    var editDivs=document.getElementsByClassName('editDiv');
+    serviceName = document.getElementById('welcomeService').innerHTML;
+    personName = document.getElementById('welcomeName').innerHTML;
+    serviceType = document.getElementById('welcomeCategory').innerHTML;
+    image = document.getElementById('welcomeImage').innerHTML;
+    description = document.getElementById('welcomeDescription').innerText;
+    contact = document.getElementById('welcomeContact').innerHTML;
+    price = document.getElementById('welcomePrice').innerHTML;
 
-    for(let i=0;i<editDivs.length;i++){
-      editDivs[i].innerHTML="<input class='searchBar editBar' type='text' value=''>";
-    }
+    var editDivs=document.getElementsByClassName('editDiv');
+    editDivs[0].innerHTML="<input class='searchBar editBar' id='editServiceName' 'type='text' value=" + serviceName + ">";
+    editDivs[1].innerHTML="<input class='searchBar editBar' id='editPersonName' 'type='text' value=" + personName + ">";
+    editDivs[3].innerHTML="<input class='searchBar editBar' id='editImage' 'type='text' value=" + image + ">";
+    editDivs[4].innerHTML="<input class='searchBar editBar' id='editDescription' 'type='text' value=" + description + ">";
+    editDivs[5].innerHTML="<input class='searchBar editBar' id='editContact' 'type='text' value=" + contact + ">";
+    editDivs[6].innerHTML="<input class='searchBar editBar' id='editPrice' 'type='text' value=" + price + ">";
     var editCategory="";
 
     editCategory+='<select class="searchBar editBar" name="serviceCategory" id="serviceCategory" required>';
