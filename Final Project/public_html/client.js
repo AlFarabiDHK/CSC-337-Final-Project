@@ -111,7 +111,7 @@ function logout() {
       resultsString+="Service Category: "+serviceType+"<br>";
       resultsString+="Images: "+image+"<br>";
       resultsString+="Description: "+description+"<br>";
-      resultsString+="Contact: "+contact+"<br>";
+      resultsString+="Contact: <a href=mailto:"+contact+">"+ contact+"</a><br>";
       resultsString+="Price: "+price+"<br></div>";
     }
 
@@ -223,7 +223,7 @@ function getSellerInfo(){
     editCategory+='<option value="other">Other</option>';
     editCategory+='</select>';
     document.getElementById('editWelcomeCategory').innerHTML=editCategory;
-    document.getElementById('saveChangesdiv').innerHTML='<button id="saveChanges" onclick="submitEditedInfo();getSellerInfo();" class="Button" type="button" name="button">Save Changes</button>';
+    document.getElementById('saveChangesdiv').innerHTML='<button id="saveChanges" onclick="submitEditedInfo();" class="Button" type="button" name="button">Save Changes</button>';
 
   }
 
@@ -251,6 +251,20 @@ function getSellerInfo(){
       d = document.getElementById('editDescription').value;
       c = document.getElementById('editContact').value;
       price = document.getElementById('editPrice').value;
+
+      var editDivs= document.getElementsByClassName('editDiv');
+
+      for(let i=0;i<editDivs.length;i++){
+      editDivs[i].innerHTML="";
+    }
+
+    var welcomeDivs= document.getElementsByClassName('WelcomeDivs');
+
+      for(let i=0;i<welcomeDivs.length;i++){
+      welcomeDivs[i].innerHTML="";
+    }
+
+
 
     let url = '/edit/'+s+'/'+p+'/'+type+'/'+i+'/'+d+'/'+c+'/'+price+'/';
     httpRequest.open('GET', url);
