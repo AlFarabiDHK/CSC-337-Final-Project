@@ -176,13 +176,13 @@ function getSellerInfo(){
     var price = response.price;
 
 
-    document.getElementById('welcomeService').innerHTML= serviceName;
-    document.getElementById('welcomeName').innerHTML= personName;
-    document.getElementById('welcomeCategory').innerHTML= serviceType;
-    document.getElementById('welcomeImage').innerHTML= image;
-    document.getElementById('welcomeDescription').innerHTML= description;
-    document.getElementById('welcomeContact').innerHTML= contact;
-    document.getElementById('welcomePrice').innerHTML= price;
+    document.getElementById('welcomeService').innerText= serviceName;
+    document.getElementById('welcomeName').innerText= personName;
+    document.getElementById('welcomeCategory').innerText= serviceType;
+    document.getElementById('welcomeImage').innerText= image;
+    document.getElementById('welcomeDescription').innerText= description;
+    document.getElementById('welcomeContact').innerText= contact;
+    document.getElementById('welcomePrice').innerText= price;
 
     var editDivs= document.getElementsByClassName('editDiv');
     for(let i=0;i<editDivs.length;i++){
