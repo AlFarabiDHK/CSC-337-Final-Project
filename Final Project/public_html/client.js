@@ -193,13 +193,13 @@ function getSellerInfo(){
   }
 
   function editSellerInformation(){
-    serviceName = document.getElementById('welcomeService').innerHTML;
-    personName = document.getElementById('welcomeName').innerHTML;
-    serviceType = document.getElementById('welcomeCategory').innerHTML;
-    image = document.getElementById('welcomeImage').innerHTML;
+    serviceName = document.getElementById('welcomeService').innerText;
+    personName = document.getElementById('welcomeName').innerText;
+    serviceType = document.getElementById('welcomeCategory').innerText;
+    image = document.getElementById('welcomeImage').innerText;
     description = document.getElementById('welcomeDescription').innerText;
-    contact = document.getElementById('welcomeContact').innerHTML;
-    price = document.getElementById('welcomePrice').innerHTML;
+    contact = document.getElementById('welcomeContact').innerText;
+    price = document.getElementById('welcomePrice').innerText;
 
     var editDivs=document.getElementsByClassName('editDiv');
     editDivs[0].innerHTML="<input class='searchBar editBar' id='editServiceName' 'type='text' value=" + serviceName + ">";
