@@ -8,15 +8,15 @@ const multer = require('multer');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads')
+    cb(null, './public_html/uploads')
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
+    cb(null, "" + Date.now() + path.extname(file.originalname))
   }
 })
-var upload = multer({ storage: storage });
-var fs = require('fs');
-var path = require('path');
+const upload = multer({ storage: storage });
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 app.set("view engine","ejs");
@@ -100,10 +100,10 @@ app.use(parser.text({type: '*/*'}));
 
 app.use('/',express.static('public_html'));
 
-app.use(parser.urlencoded({ extended: false }))
+//app.use(parser.urlencoded({ extended: false }))
 app.use(parser.json())
-app.use(parser.json({limit:'50mb'})); 
-app.use(parser.urlencoded({extended:true, limit:'50mb'})); 
+//app.use(parser.json({limit:'50mb'})); 
+//app.use(parser.urlencoded({extended:true, limit:'50mb'})); 
 
 // Set EJS as templating engine
 app.set("view engine", "ejs");
@@ -122,17 +122,6 @@ var FreelancerSchema = new Schema({
   class: String,
 });
 
-var imgSchema = new Schema({
-  img:{
-    data:Buffer,
-    contentType: String,
-    username: String
-  },
-  
-  
-});
-
-var image = mongoose.model("image",imgSchema);
 
 var Freelancer = mongoose.model('Freelancer', FreelancerSchema)
 
@@ -148,26 +137,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.get('/', (req, res) => { res.redirect('/index.html'); });
 app.get('/testcookies', (req, res)=>{res.send(req.cookies);});
 
-app.post("/uploadphoto",upload.single('myImage'),(req,res)=>{
-  var img = fs.readFileSync(req.file.path);
-  var encode_img = img.toString('base64');
-  var final_img = {
-      contentType:req.file.mimetype,
-      image:new Buffer(encode_img,'base64'),
-      username: req.cookies.login.username
-  };
 
-  image.create(final_img,function(err,result){
-      if(err){
-          console.log(err);
-      }else{
-          console.log(result.img.Buffer);
-          console.log("Saved To database");
-          res.contentType(final_img.contentType);
-          res.send(final_img.image);
-      }
-  });
-});
 
 app.get('/login/:username/:password/', (req, res) => {
   Freelancer.find({username : req.params.username}).exec(function(error, results) {
