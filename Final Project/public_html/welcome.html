@@ -95,12 +95,11 @@
 
     <div class="InfoDivs ImageDiv" >
       <img class="WelcomeIcons" src="./images/images.png" alt="">
-      <h6>Images</h6>
-      <div class = "WelcomeDivs" id="welcomeImage" >
-
-      </div>
-      <div class= "editDiv" id="editWelcomeImage">
-      </div>
+      <h6>Image Upload</h6>
+      <form action="/uploadphoto" enctype="multipart/form-data" method="POST">
+        <input type="file" name="myImage" accept="image/*">
+        <input type="submit" value="Upload Photo">
+    </form>
 
 
     </div>
@@ -138,6 +137,8 @@
       </div>
       <div class= "editDiv" id="editWelcomePrice">
       </div>
+
+      
 
 
     </div>

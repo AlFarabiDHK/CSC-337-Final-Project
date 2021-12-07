@@ -49,11 +49,10 @@ function logout() {
     let pName = document.getElementById('pName').value;
     let catagory = document.getElementById('serviceCategory').value;
     let price = document.getElementById('price').value;
-    let photo = document.getElementById('photos').value;
     console.log(pName);
     var url ='/create/' + u + '/' + encodeURIComponent(p) + '/'
    + pName + '/' +  n + '/' + b + '/' + e + '/' + catagory + '/' +
-   price + '/' + photo + '/';
+   price + '/';
 
    console.log(url);
     httpRequest.open('GET',url, true);
@@ -101,7 +100,6 @@ function logout() {
       var serviceName = response.name;
       var personName = response.personName;
       var serviceType = response.class;
-      var image = response.image;
       var description = response.bio;
       var contact= response.contact;
       var price = response.price;
@@ -109,7 +107,6 @@ function logout() {
       resultsString+="<h3>Service: "+serviceName+"</h3><br>";
       resultsString+="Freelancer Name: "+personName+"<br>";
       resultsString+="Service Category: "+serviceType+"<br>";
-      resultsString+="Images: "+image+"<br>";
       resultsString+="Description: "+description+"<br>";
       resultsString+="Contact: <a href=mailto:"+contact+">"+ contact+"</a><br>";
       resultsString+="Price: "+price+"<br></div>";
@@ -170,7 +167,6 @@ function getSellerInfo(){
     var serviceName = response.name;
     var personName = response.personName;
     var serviceType = response.class;
-    var image = response.image;
     var description = response.bio;
     var contact= response.contact;
     var price = response.price;
@@ -179,7 +175,6 @@ function getSellerInfo(){
     document.getElementById('welcomeService').innerText= serviceName;
     document.getElementById('welcomeName').innerText= personName;
     document.getElementById('welcomeCategory').innerText= serviceType;
-    document.getElementById('welcomeImage').innerText= image;
     document.getElementById('welcomeDescription').innerText= description;
     document.getElementById('welcomeContact').innerText= contact;
     document.getElementById('welcomePrice').innerText= price;
@@ -196,18 +191,18 @@ function getSellerInfo(){
     serviceName = document.getElementById('welcomeService').innerText;
     personName = document.getElementById('welcomeName').innerText;
     serviceType = document.getElementById('welcomeCategory').innerText;
-    image = document.getElementById('welcomeImage').innerText;
     description = document.getElementById('welcomeDescription').innerText;
     contact = document.getElementById('welcomeContact').innerText;
     price = document.getElementById('welcomePrice').innerText;
+    console.log(typeof(description));
 
     var editDivs=document.getElementsByClassName('editDiv');
-    editDivs[0].innerHTML="<input class='searchBar editBar' id='editServiceName' 'type='text' value=" + serviceName + ">";
-    editDivs[1].innerHTML="<input class='searchBar editBar' id='editPersonName' 'type='text' value=" + personName + ">";
-    editDivs[3].innerHTML="<input class='searchBar editBar' id='editImage' 'type='text' value=" + image + ">";
-    editDivs[4].innerHTML="<input class='searchBar editBar' id='editDescription' 'type='text' value=" + description + ">";
-    editDivs[5].innerHTML="<input class='searchBar editBar' id='editContact' 'type='text' value=" + contact + ">";
-    editDivs[6].innerHTML="<input class='searchBar editBar' id='editPrice' 'type='text' value=" + price + ">";
+    editDivs[0].innerHTML="<input class='searchBar editBar' id='editServiceName' 'type='text' value='" + serviceName + "'>";
+    editDivs[1].innerHTML="<input class='searchBar editBar' id='editPersonName' 'type='text' value='" + personName + "'>";
+    editDivs[3].innerHTML="<input class='searchBar editBar' id='editDescription' 'type='text' value='" + description + "'>";
+    editDivs[4].innerHTML="<input class='searchBar editBar' id='editContact' 'type='text' value='" + contact + "'>";
+    editDivs[5].innerHTML="<input class='searchBar editBar' id='editPrice' 'type='text' value='" + price + "'>";
+    console.log(editDivs[3].innerHTML);
     var editCategory="";
 
     editCategory+='<select class="searchBar editBar" name="serviceCategory" id="editServiceCategory" required>';
@@ -247,7 +242,6 @@ function getSellerInfo(){
       p = document.getElementById('editPersonName').value;
       e = document.getElementById('editServiceCategory');
       type = e.options[e.selectedIndex].text;
-      i = document.getElementById('editImage').value;
       d = document.getElementById('editDescription').value;
       c = document.getElementById('editContact').value;
       price = document.getElementById('editPrice').value;
@@ -266,7 +260,7 @@ function getSellerInfo(){
 
 
 
-    let url = '/edit/'+s+'/'+p+'/'+type+'/'+i+'/'+d+'/'+c+'/'+price+'/';
+    let url = '/edit/'+s+'/'+p+'/'+type+'/'+d+'/'+c+'/'+price+'/';
     httpRequest.open('GET', url);
     httpRequest.send();
   

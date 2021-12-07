@@ -7,18 +7,19 @@ const crypto = require('crypto');
 const multer = require('multer');
 
 var storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-      cb(null, 'uploads');
+  destination: function (req, file, cb) {
+    cb(null, 'uploads')
   },
-  filename: (req, file, cb) => {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
   }
-});
-
+})
 var upload = multer({ storage: storage });
 var fs = require('fs');
 var path = require('path');
+
 const app = express();
+app.set("view engine","ejs");
 app.use(cookieParser());
 // authenticate and login functions
 
@@ -101,6 +102,8 @@ app.use('/',express.static('public_html'));
 
 app.use(parser.urlencoded({ extended: false }))
 app.use(parser.json())
+app.use(parser.json({limit:'50mb'})); 
+app.use(parser.urlencoded({extended:true, limit:'50mb'})); 
 
 // Set EJS as templating engine
 app.set("view engine", "ejs");
@@ -117,8 +120,19 @@ var FreelancerSchema = new Schema({
   contact: String,
   price: Number,
   class: String,
-  image: String,
 });
+
+var imgSchema = new Schema({
+  img:{
+    data:Buffer,
+    contentType: String,
+    username: String
+  },
+  
+  
+});
+
+var image = mongoose.model("image",imgSchema);
 
 var Freelancer = mongoose.model('Freelancer', FreelancerSchema)
 
@@ -133,6 +147,27 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // all get requests
 app.get('/', (req, res) => { res.redirect('/index.html'); });
 app.get('/testcookies', (req, res)=>{res.send(req.cookies);});
+
+app.post("/uploadphoto",upload.single('myImage'),(req,res)=>{
+  var img = fs.readFileSync(req.file.path);
+  var encode_img = img.toString('base64');
+  var final_img = {
+      contentType:req.file.mimetype,
+      image:new Buffer(encode_img,'base64'),
+      username: req.cookies.login.username
+  };
+
+  image.create(final_img,function(err,result){
+      if(err){
+          console.log(err);
+      }else{
+          console.log(result.img.Buffer);
+          console.log("Saved To database");
+          res.contentType(final_img.contentType);
+          res.send(final_img.image);
+      }
+  });
+});
 
 app.get('/login/:username/:password/', (req, res) => {
   Freelancer.find({username : req.params.username}).exec(function(error, results) {
@@ -163,7 +198,7 @@ app.get('/search/services/:keyWord', (req, res) => {
   })
 });
 
-app.get('/create/:username/:password/:person/:name/:bio/:contact/:catagory/:price/:photo', (req, res) => {
+app.get('/create/:username/:password/:person/:name/:bio/:contact/:catagory/:price/', (req, res) => {
   Freelancer.find({username : req.params.username}).exec(function(error, results) {
     if (!error && results.length == 0) {
 
@@ -179,8 +214,7 @@ app.get('/create/:username/:password/:person/:name/:bio/:contact/:catagory/:pric
         'bio': req.params.bio,
         'contact': req.params.contact,
         'class':req.params.catagory,
-        'price': req.params.price,
-        'image': req.params.photo
+        'price': req.params.price
 
     });
     console.log(free);
@@ -205,7 +239,7 @@ app.get('/welcome/', (req, res) => {
   })
 });
 
-app.get('/edit/:name/:personName/:catagory/:photo/:bio/:contact/:price', (req, res) => {
+app.get('/edit/:name/:personName/:catagory/:bio/:contact/:price', (req, res) => {
   
       Freelancer.findOneAndUpdate({username : req.cookies.login.username}, {
         'name': req.params.name,
@@ -213,8 +247,7 @@ app.get('/edit/:name/:personName/:catagory/:photo/:bio/:contact/:price', (req, r
         'bio': req.params.bio,
         'contact': req.params.contact,       
         'price': req.params.price,
-        'class': req.params.catagory,
-        'image': req.params.photo
+        'class': req.params.catagory
       }, function (err, docs) {
         if (err){
             console.log(err);
