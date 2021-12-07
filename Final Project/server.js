@@ -102,8 +102,8 @@ app.use('/',express.static('public_html'));
 
 app.use(parser.urlencoded({ extended: false }))
 app.use(parser.json())
-app.use(parser.json({limit:'50mb'})); 
-app.use(parser.urlencoded({extended:true, limit:'50mb'})); 
+app.use(parser.json({limit:'50mb'}));
+app.use(parser.urlencoded({extended:true, limit:'50mb'}));
 
 // Set EJS as templating engine
 app.set("view engine", "ejs");
@@ -128,8 +128,8 @@ var imgSchema = new Schema({
     contentType: String,
     username: String
   },
-  
-  
+
+
 });
 
 var image = mongoose.model("image",imgSchema);
@@ -191,7 +191,7 @@ app.get('/login/:username/:password/', (req, res) => {
 
 app.get('/search/services/:keyWord', (req, res) => {
   Freelancer.find({ $or: [{name:{$regex: '.*'+req.params.keyWord+'.*'}},
-  {class:{$regex: '.*'+req.params.keyWord+'.*'}}]})
+  {class:{$regex: '.*'+req.params.keyWord+'.*'}}, {personName:{$regex: '.*'+req.params.keyWord+'.*'}}]})
     .exec(function (err, results) {
     if (err) return handleError(err);
     res.end(JSON.stringify(results));
@@ -220,7 +220,7 @@ app.get('/create/:username/:password/:person/:name/:bio/:contact/:catagory/:pric
     console.log(free);
 
     free.save(function (err) {
-      if (err) { res.end('ERROR'); }
+      if (err) { res.end('ERROR! Make sure you did not leave any fields empty.'); }
       else { res.end('Account created!')
     };
     });
@@ -240,18 +240,18 @@ app.get('/welcome/', (req, res) => {
 });
 
 app.get('/edit/:name/:personName/:catagory/:bio/:contact/:price', (req, res) => {
-  
+
       Freelancer.findOneAndUpdate({username : req.cookies.login.username}, {
         'name': req.params.name,
         'personName': req.params.personName,
         'bio': req.params.bio,
-        'contact': req.params.contact,       
+        'contact': req.params.contact,
         'price': req.params.price,
         'class': req.params.catagory
       }, function (err, docs) {
         if (err){
             console.log(err);
-        } 
+        }
       })
   });
   //implement update document
@@ -264,7 +264,7 @@ app.get('/logout/', (req, res) => {
   res.end("logged out"); });
 
 
-  
+
 // Start the server!
 
 app.listen(80, () => { console.log('server has started'); });

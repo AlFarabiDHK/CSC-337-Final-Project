@@ -43,11 +43,11 @@ function logout() {
 
     let u = document.getElementById('usernameCreate').value;
     let p = document.getElementById('passwordCreate').value;
-    let n = document.getElementById('name').value;
+    let n = document.getElementById('name').value.toLowerCase();
     let b = document.getElementById('bio').value;
     let e = document.getElementById('email').value;
-    let pName = document.getElementById('pName').value;
-    let catagory = document.getElementById('serviceCategory').value;
+    let pName = document.getElementById('pName').value.toLowerCase();
+    let catagory = document.getElementById('serviceCategory').value.toLowerCase();
     let price = document.getElementById('price').value;
     console.log(pName);
     var url ='/create/' + u + '/' + encodeURIComponent(p) + '/'
@@ -84,7 +84,7 @@ function logout() {
         }
       }
 
-    var searchKey = document.getElementById('searchServiceBar').value;
+    var searchKey = document.getElementById('searchServiceBar').value.toLowerCase();
 
 
     let url = '/search/services/'+searchKey;
@@ -98,8 +98,11 @@ function logout() {
     for (var i=0;i<responseArray.length;i++){
       var response = responseArray[i];
       var serviceName = response.name;
+      serviceName= serviceName.charAt(0).toUpperCase() + serviceName.slice(1);
       var personName = response.personName;
+      personName= personName.charAt(0).toUpperCase() + personName.slice(1);
       var serviceType = response.class;
+      serviceType= serviceType.charAt(0).toUpperCase() + serviceType.slice(1);
       var description = response.bio;
       var contact= response.contact;
       var price = response.price;
@@ -165,8 +168,11 @@ function getSellerInfo(){
 }
   function makeWelcomePage(response){
     var serviceName = response.name;
+    serviceName= serviceName.charAt(0).toUpperCase() + serviceName.slice(1);
     var personName = response.personName;
+    personName= personName.charAt(0).toUpperCase() + personName.slice(1);
     var serviceType = response.class;
+    serviceType= serviceType.charAt(0).toUpperCase() + serviceType.slice(1);
     var description = response.bio;
     var contact= response.contact;
     var price = response.price;
@@ -188,9 +194,9 @@ function getSellerInfo(){
   }
 
   function editSellerInformation(){
-    serviceName = document.getElementById('welcomeService').innerText;
-    personName = document.getElementById('welcomeName').innerText;
-    serviceType = document.getElementById('welcomeCategory').innerText;
+    serviceName = document.getElementById('welcomeService').innerText.toLowerCase();
+    personName = document.getElementById('welcomeName').innerText.toLowerCase();
+    serviceType = document.getElementById('welcomeCategory').innerText.toLowerCase();
     description = document.getElementById('welcomeDescription').innerText;
     contact = document.getElementById('welcomeContact').innerText;
     price = document.getElementById('welcomePrice').innerText;
@@ -227,15 +233,15 @@ function getSellerInfo(){
     if (!httpRequest) {
       return false;
     }
-  
+
     httpRequest.onreadystatechange = () => {
       if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status == 200) {
-          
-  
+
+
           }
-  
-  
+
+
         }
       }
       s = document.getElementById('editServiceName').value;
@@ -263,5 +269,5 @@ function getSellerInfo(){
     let url = '/edit/'+s+'/'+p+'/'+type+'/'+d+'/'+c+'/'+price+'/';
     httpRequest.open('GET', url);
     httpRequest.send();
-  
+
   }

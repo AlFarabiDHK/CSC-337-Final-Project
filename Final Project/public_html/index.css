@@ -128,6 +128,10 @@ h3{
   background-color: #dbafa2;
 }
 
+#searchServiceBar{
+  width: 40%;
+
+}
 #searchResults{
   display: flex;
   text-align: left;
@@ -147,6 +151,7 @@ h3{
     line-height: 2.5rem;
     font-family: 'Scope One', serif;
     font-size: 1.3rem;
+    border-radius: 25px;
 
 
 }
