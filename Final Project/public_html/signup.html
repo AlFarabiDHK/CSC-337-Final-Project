@@ -3,7 +3,7 @@
   Filename: signup.html
   Author: Muhtasim Al-Farabi, Shyambhavi
   Purpose: This document contains necessary html for the signup page of
-  our webapp. 
+  our webapp.
 -->
 
 <!DOCTYPE html>
@@ -33,7 +33,7 @@
 
       <a href="/signup.html" id="freelanceSign">Sign Up as a Freelancer</a>
 
-      <a href="login.html"><button id="loginButton" class="Button" type="button" name="button">Login</button></a>
+      <button id="loginButton" onclick="location.href='login.html'" class="Button" type="button" name="button">Login</button>
 
     </div>
 
@@ -54,6 +54,7 @@
 
       <label for="serviceCategory">Choose a Category for your Service:</label>
       <select class="searchBar signUpBar" name="serviceCategory" id="serviceCategory" required>
+        <option value="">&nbsp;</option>
         <option value="IT & Development">IT & Development</option>
         <option value="Design & Creative">Design & Creative</option>
         <option value="Sales & Marketing">Sales & Marketing</option>
