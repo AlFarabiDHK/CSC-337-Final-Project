@@ -3,12 +3,12 @@
  * CSc 337 Final project Fall 2021
  * Authors: Muhtasim Al-Farabi, Shyambhavi
  * Purpose: This file is contains the client code for localbizz webapp.
- * It contains all the necessary function to execute the application. 
+ * It contains all the necessary function to execute the application.
  */
 
 /**
  * This function uses an XMLHttpRequest to the server when the login button
- * is clicked. It sends the username in the url. 
+ * is clicked. It sends the username in the url.
  */
 
 function edit() {
@@ -29,7 +29,7 @@ let url = '/edit/' + u;
 
 /**
  * This function uses an XMLHttpRequest to the server when the logout button
- * is clicked. 
+ * is clicked.
  */
 
 function logout() {
@@ -48,7 +48,7 @@ function logout() {
 /**
  * This function uses an XMLHttpRequest to the server when the signup button
  * is clicked. It sends the username, encoded password, personal name, email,
- * description, price, and class of the service in the url. 
+ * description, price, and class of the service in the url.
  */
 
   function createAccount() {
@@ -95,9 +95,11 @@ function logout() {
           var responseArray = JSON.parse(httpRequest.responseText);
           if (responseArray.length==0){
             document.getElementById('searchResults').innerHTML="<h3>Sorry this service is not available. Try searching something else!</h3>";
+
           }else{
             var resultsString=constructSearchResult(responseArray);
             document.getElementById('searchResults').innerHTML=resultsString;
+            
           }
         }
       }
@@ -106,6 +108,7 @@ function logout() {
     let url = '/search/services/'+searchKey;
     httpRequest.open('GET', url);
     httpRequest.send();
+
 
   }
 
@@ -175,7 +178,7 @@ function logout() {
 /**
    * This function uses an XMLHttpRequest to the server right after the user
    * logs into the application. Its purpose is to store the user Information
-   * that will be user later. 
+   * that will be user later.
    */
 function getSellerInfo(){
   var httpRequest = new XMLHttpRequest();
@@ -196,7 +199,7 @@ function getSellerInfo(){
 }
 
 /**
- * This function takes in a JSON Object containing all the information 
+ * This function takes in a JSON Object containing all the information
  * about an user and the shows that in the welcome page when the "view
  * information" button is clicked.
  * @param {Object} response, a response in JSON format
@@ -227,7 +230,7 @@ function getSellerInfo(){
     }
   }
   /**
- * This function creates input boxes and fills them with the data already 
+ * This function creates input boxes and fills them with the data already
  * present on the welcome page. An user can edit the information now.
  */
 
@@ -271,7 +274,7 @@ function getSellerInfo(){
    * button is clicked. It hides the input boxes and the data on the welcome
    * page, and also it sends the new information to the get request associated
    * with this function so that it gets saved into the database.
-   * 
+   *
    */
 
   function submitEditedInfo(){
