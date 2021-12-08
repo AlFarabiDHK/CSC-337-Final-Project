@@ -205,7 +205,7 @@ app.get('/login/:username/:password/', (req, res) => {
 
 app.get('/search/services/:keyWord', (req, res) => {
   Freelancer.find({ $or: [{name:{$regex: '.*'+req.params.keyWord+'.*'}},
-  {class:{$regex: '.*'+req.params.keyWord+'.*'}}, {personName:{$regex: '.*'+req.params.keyWord+'.*'}}]})
+  {class:{$regex: '.*'+req.params.keyWord+'.*'}}]})
     .exec(function (err, results) {
     if (err) return handleError(err);
     res.end(JSON.stringify(results));
