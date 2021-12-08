@@ -1,3 +1,13 @@
+/**
+ * File: server.js
+ * CSc 337 Final project Fall 2021
+ * Authors: Muhtasim Al-Farabi, Shyambhavi
+ * Purpose: This file is contains the server code for localbizz webapp.
+ * It contains necessary imports, schemas, get and post requests to run
+ * the app properly. All the non-trivial blocks of code have inline
+ * comments to track its task
+ */
+
 // importing modules
 const mongoose = require('mongoose');
 const express = require('express');
@@ -5,8 +15,8 @@ const parser = require('body-parser')
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const app = express();
-app.set("view engine","ejs");
 app.use(cookieParser());
+
 // authenticate and login functions
 
 
@@ -16,6 +26,14 @@ app.use(express.static('./public_html'));
 
 TIMEOUT = 500000;
 var sessions = {};
+
+/**
+ * This function checks whether an user has permission to be logged in
+ * at that time. If the user stays more than 500 seconds, their
+ * session gets deleted. We are using the setInterval function
+ * to run this function every 2 seconds.
+ *
+ */
 function filterSessions() {
   let now = Date.now();
   for (e in sessions) {
@@ -25,16 +43,24 @@ function filterSessions() {
     }
   }
 }
+setInterval(filterSessions, 2000);
+
+/**
+ * This function deletes an user from a session.
+ * @param {String} username, username of the user
+ */
 
 function loggedOut(username){
   delete sessions[username];
 }
 
-
-
-
-setInterval(filterSessions, 2000);
-
+/**
+ * This function logs a user into the session by putting their username
+ * and a session ID into the session.
+ * @param {String} username , username of the user
+ * @param {Number} sessionKey, a randomly generated number
+ * @returns the session key
+ */
 function putSession(username, sessionKey) {
   if (username in sessions) {
     sessions[username] = {'key': sessionKey, 'time': Date.now()};
@@ -46,12 +72,27 @@ function putSession(username, sessionKey) {
   }
 }
 
+/**
+ * This function checks if a user is legally in a session
+ * @param {String} username , username of the user
+ * @param {Number} sessionKey, a randomly generated number
+ * @returns true/false based on the parameters
+ */
+
 function isValidSession(username, sessionKey) {
   if (username in sessions && sessions[username].key == sessionKey) {
     return true;
   }
   return false;
 }
+
+/**
+ * This function uses cookies to check if the user is authenticated
+ * or not
+ * @param {*} req, HTTP request middleware function
+ * @param {*} res, HTTP response middleware function
+ * @param {*} next, callback argument for middleware function
+ */
 function authenticate(req, res, next) {
     if (Object.keys(req.cookies).length > 0) {
       let u = req.cookies.login.username;
@@ -68,7 +109,15 @@ function authenticate(req, res, next) {
     }
   }
   app.use('/welcome.html',authenticate);
-  /** HASHING CODE **/
+/** HASHING CODE **/
+
+/**
+ * This function is used to get the hash + salt of a password using
+ * the sha512 function
+ * @param {String} password, password of the user
+ * @param {Number} salt, a number to be added to the hash
+ * @returns the hash of the password with salt
+ */
 
 function getHash(password, salt) {
   var cryptoHash = crypto.createHash('sha512');
@@ -77,6 +126,15 @@ function getHash(password, salt) {
   return hash;
 
 }
+
+/**
+ * This function checks if the password is correct. It takes in the
+ * account name and the password, uses getHash to hash and salt it,
+ * then compares it with the found hash + salt from the database
+ * @param {String} account, username of the user
+ * @param {String} password , password of the user
+ * @returns true/false value on whether the password is correct
+ */
 
 function isPasswordCorrect(account, password) {
   var hash = getHash(password, account.salt);
@@ -92,10 +150,7 @@ app.use(parser.text({type: '*/*'}));
 app.use(parser.json())
 
 
-// Set EJS as templating engine
-app.set("view engine", "ejs");
-
-// Create the schema (in other words, the database object structure specification)
+// Create the schema
 var Schema = mongoose.Schema;
 var FreelancerSchema = new Schema({
   username: String,
@@ -108,12 +163,9 @@ var FreelancerSchema = new Schema({
   price: Number,
   class: String,
 });
-
-
 var Freelancer = mongoose.model('Freelancer', FreelancerSchema)
 
 // mongodb code
-
 const db  = mongoose.connection;
 const mongoDBURL = 'mongodb://127.0.0.1/';
 mongoose.connect(mongoDBURL, { useNewUrlParser: true,
@@ -124,15 +176,17 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.get('/', (req, res) => { res.redirect('/index.html'); });
 app.get('/testcookies', (req, res)=>{res.send(req.cookies);});
 
-
+// this is a get request for logging in an user
 
 app.get('/login/:username/:password/', (req, res) => {
   Freelancer.find({username : req.params.username}).exec(function(error, results) {
     if (results.length == 1) {
       //console.log(results[0]);
       var password = req.params.password;
+      // checks password
       var correct = isPasswordCorrect(results[0], password);
       if (correct) {
+        // puts the user in a session
           var sessionKey = putSession(req.params.username);
           res.cookie("login", {username: req.params.username, key:sessionKey},
           {maxAge: TIMEOUT});
@@ -146,6 +200,9 @@ app.get('/login/:username/:password/', (req, res) => {
   });
 });
 
+// this get request searches the database for matching service name,
+// class of service, or name of the person themselves
+
 app.get('/search/services/:keyWord', (req, res) => {
   Freelancer.find({ $or: [{name:{$regex: '.*'+req.params.keyWord+'.*'}},
   {class:{$regex: '.*'+req.params.keyWord+'.*'}}, {personName:{$regex: '.*'+req.params.keyWord+'.*'}}]})
@@ -155,13 +212,17 @@ app.get('/search/services/:keyWord', (req, res) => {
   })
 });
 
-app.get('/create/:username/:password/:person/:name/:bio/:contact/:catagory/:price/', (req, res) => {
+// this get request creates a new account that had not been created
+// before. It also salts and hashes the password.
+
+app.get('/create/:username/:password/:person/:name/:bio/:contact/:catagory/:price/',
+(req, res) => {
   Freelancer.find({username : req.params.username}).exec(function(error, results) {
     if (!error && results.length == 0) {
 
       var salt = Math.floor(Math.random() * 1000000000000);
       var hash = getHash(req.params.password, salt);
-
+      // new object S
       var free = new Freelancer({
         'username': req.params.username,
         'hash': hash,
@@ -187,7 +248,7 @@ app.get('/create/:username/:password/:person/:name/:bio/:contact/:catagory/:pric
 
   });
 });
-
+// this get request redirects the user to the welcome page after logging in
 app.get('/welcome/', (req, res) => {
   Freelancer.findOne({username : req.cookies.login.username})
     .exec(function (err, results) {
@@ -195,6 +256,8 @@ app.get('/welcome/', (req, res) => {
     res.end(JSON.stringify(results));
   })
 });
+
+// this get request allows the user to edit all their information in the database
 
 app.get('/edit/:name/:personName/:catagory/:bio/:contact/:price', (req, res) => {
 
@@ -214,7 +277,7 @@ app.get('/edit/:name/:personName/:catagory/:bio/:contact/:price', (req, res) => 
   //implement update document
 
 
-
+// this get request is here for logging out users
 app.get('/logout/', (req, res) => {
   console.log(req.cookies.login.username);
   loggedOut(req.cookies.login.username)

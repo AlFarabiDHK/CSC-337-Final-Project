@@ -1,3 +1,15 @@
+/**
+ * File: client.js
+ * CSc 337 Final project Fall 2021
+ * Authors: Muhtasim Al-Farabi, Shyambhavi
+ * Purpose: This file is contains the client code for localbizz webapp.
+ * It contains all the necessary function to execute the application. 
+ */
+
+/**
+ * This function uses an XMLHttpRequest to the server when the login button
+ * is clicked. It sends the username in the url. 
+ */
 
 function edit() {
   var httpRequest = new XMLHttpRequest();
@@ -10,11 +22,15 @@ function edit() {
 }
 
 let u = document.getElementById('usernameLogin').value;
-
 let url = '/edit/' + u;
  httpRequest.open('GET', url, true);
   httpRequest.send();
 }
+
+/**
+ * This function uses an XMLHttpRequest to the server when the logout button
+ * is clicked. 
+ */
 
 function logout() {
   var httpRequest = new XMLHttpRequest();
@@ -29,7 +45,11 @@ function logout() {
   httpRequest.send();
 }
 
-
+/**
+ * This function uses an XMLHttpRequest to the server when the signup button
+ * is clicked. It sends the username, encoded password, personal name, email,
+ * description, price, and class of the service in the url. 
+ */
 
   function createAccount() {
     var httpRequest = new XMLHttpRequest();
@@ -58,9 +78,12 @@ function logout() {
     httpRequest.open('GET',url, true);
     httpRequest.send();
   }
-
+/**
+ * This function uses an XMLHttpRequest to the server when a customer searches
+ * for freelancers. It runs the constructSearchResult function that creates
+ * div that contains search results
+ * */
   function searchServices(){
-
     var httpRequest = new XMLHttpRequest();
     if (!httpRequest) {
       return false;
@@ -76,22 +99,22 @@ function logout() {
             var resultsString=constructSearchResult(responseArray);
             document.getElementById('searchResults').innerHTML=resultsString;
           }
-
-
-          }
-
-
         }
       }
-
+    }
     var searchKey = document.getElementById('searchServiceBar').value.toLowerCase();
-
-
     let url = '/search/services/'+searchKey;
     httpRequest.open('GET', url);
     httpRequest.send();
 
   }
+
+  /**
+   * This function takes in a response array from the server and returns
+   * the search results in a string (formatted for HTML)
+   * @param {Array} responseArray, response array from the server
+   * @returns a string with HTML for relevant search results
+   */
 
   function constructSearchResult(responseArray){
     var resultsString=""
@@ -119,6 +142,11 @@ function logout() {
 
   }
 
+  /**
+   * This function uses an XMLHttpRequest to the server when the user clicks
+   * the login button. It logs the user in and redirects them to the welcome page
+   */
+
   function login() {
     var httpRequest = new XMLHttpRequest();
 
@@ -144,28 +172,36 @@ function logout() {
     httpRequest.send();
   }
 
+/**
+   * This function uses an XMLHttpRequest to the server right after the user
+   * logs into the application. Its purpose is to store the user Information
+   * that will be user later. 
+   */
 function getSellerInfo(){
   var httpRequest = new XMLHttpRequest();
   if (!httpRequest) {
     return false;
   }
-
   httpRequest.onreadystatechange = () => {
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
       if (httpRequest.status == 200) {
         var response = JSON.parse(httpRequest.responseText);
         makeWelcomePage(response);
-
         }
-
-
       }
     }
   let url = '/welcome/';
   httpRequest.open('GET', url);
   httpRequest.send();
-
 }
+
+/**
+ * This function takes in a JSON Object containing all the information 
+ * about an user and the shows that in the welcome page when the "view
+ * information" button is clicked.
+ * @param {Object} response, a response in JSON format
+ */
+
   function makeWelcomePage(response){
     var serviceName = response.name;
     serviceName= serviceName.charAt(0).toUpperCase() + serviceName.slice(1);
@@ -189,9 +225,11 @@ function getSellerInfo(){
     for(let i=0;i<editDivs.length;i++){
       editDivs[i].innerHTML="";
     }
-
-
   }
+  /**
+ * This function creates input boxes and fills them with the data already 
+ * present on the welcome page. An user can edit the information now.
+ */
 
   function editSellerInformation(){
     serviceName = document.getElementById('welcomeService').innerText.toLowerCase();
@@ -228,6 +266,14 @@ function getSellerInfo(){
 
   }
 
+  /**
+   * This function sends an XMLHttpRequest to the server when the submit
+   * button is clicked. It hides the input boxes and the data on the welcome
+   * page, and also it sends the new information to the get request associated
+   * with this function so that it gets saved into the database.
+   * 
+   */
+
   function submitEditedInfo(){
     var httpRequest = new XMLHttpRequest();
     if (!httpRequest) {
@@ -237,11 +283,7 @@ function getSellerInfo(){
     httpRequest.onreadystatechange = () => {
       if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status == 200) {
-
-
           }
-
-
         }
       }
       s = document.getElementById('editServiceName').value;
