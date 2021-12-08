@@ -108,8 +108,9 @@ h3{
 }
 
 #AboutUsDiv{
-  padding: 5%;
+  padding: 5% 20%;
   font-size: 1.5rem;
+  line-height: 3rem;
 }
 
 #SearchDiv{

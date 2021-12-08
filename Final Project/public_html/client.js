@@ -206,7 +206,7 @@ function getSellerInfo(){
     editDivs[0].innerHTML="<input class='searchBar editBar' id='editServiceName' 'type='text' value='" + serviceName + "'>";
     editDivs[1].innerHTML="<input class='searchBar editBar' id='editPersonName' 'type='text' value='" + personName + "'>";
     editDivs[3].innerHTML="<input class='searchBar editBar' id='editDescription' 'type='text' value='" + description + "'>";
-    editDivs[4].innerHTML="<input class='searchBar editBar' id='editContact' 'type='text' value='" + contact + "'>";
+    editDivs[4].innerHTML="<input class='searchBar editBar' id='editContact' 'type='email' value='" + contact + "'>";
     editDivs[5].innerHTML="<input class='searchBar editBar' id='editPrice' 'type='text' value='" + price + "'>";
     console.log(editDivs[3].innerHTML);
     var editCategory="";

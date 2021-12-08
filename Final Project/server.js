@@ -4,24 +4,15 @@ const express = require('express');
 const parser = require('body-parser')
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
-const multer = require('multer');
-
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './public_html/uploads')
-  },
-  filename: function (req, file, cb) {
-    cb(null, "" + Date.now() + path.extname(file.originalname))
-  }
-})
-const upload = multer({ storage: storage });
-const fs = require('fs');
-const path = require('path');
-
 const app = express();
 app.set("view engine","ejs");
 app.use(cookieParser());
 // authenticate and login functions
+
+
+
+app.use(express.static('./public_html'));
+
 
 TIMEOUT = 500000;
 var sessions = {};
@@ -98,12 +89,8 @@ function isPasswordCorrect(account, password) {
 
 app.use(parser.text({type: '*/*'}));
 
-app.use('/',express.static('public_html'));
-
-//app.use(parser.urlencoded({ extended: false }))
 app.use(parser.json())
-//app.use(parser.json({limit:'50mb'}));
-//app.use(parser.urlencoded({extended:true, limit:'50mb'}));
+
 
 // Set EJS as templating engine
 app.set("view engine", "ejs");
@@ -232,7 +219,6 @@ app.get('/logout/', (req, res) => {
   console.log(req.cookies.login.username);
   loggedOut(req.cookies.login.username)
   res.end("logged out"); });
-
 
 
 // Start the server!
