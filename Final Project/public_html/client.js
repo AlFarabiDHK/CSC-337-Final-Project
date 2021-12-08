@@ -99,7 +99,7 @@ function logout() {
           }else{
             var resultsString=constructSearchResult(responseArray);
             document.getElementById('searchResults').innerHTML=resultsString;
-            
+
           }
         }
       }
@@ -138,7 +138,7 @@ function logout() {
       resultsString+="Service Category: "+serviceType+"<br>";
       resultsString+="Description: "+description+"<br>";
       resultsString+="Contact: <a href=mailto:"+contact+">"+ contact+"</a><br>";
-      resultsString+="Price: "+price+"<br></div>";
+      resultsString+="Price($/hr): "+price+"<br></div>";
     }
 
     return resultsString;
